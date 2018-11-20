@@ -1,4 +1,4 @@
-name := """play-java-starter-example"""
+name := """Library Manager"""
 
 version := "1.0-SNAPSHOT"
 
