@@ -27,7 +27,7 @@ public class DashboardController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result add() {
-        return ok(addItem.render("Library Manager - Add Item Section"));
+        return ok(itemAdd.render("Library Manager - Add Item Section"));
     }
 
     /**
@@ -37,7 +37,7 @@ public class DashboardController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result delete() {
-        return ok(deleteItem.render("Library Manager - Delete Item Section"));
+        return ok(itemDelete.render("Library Manager - Delete Item Section"));
     }
 
     /**
@@ -47,7 +47,7 @@ public class DashboardController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result borrow() {
-        return ok(borrowItem.render("Library Manager - Borrow Item Section"));
+        return ok(itemBorrow.render("Library Manager - Borrow Item Section"));
     }
 
     /**
@@ -57,7 +57,7 @@ public class DashboardController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result returnItem() {
-        return ok(returnItem.render("Library Manager - Return Item Section"));
+        return ok(itemReturn.render("Library Manager - Return Item Section"));
     }
 
     /**
@@ -67,7 +67,7 @@ public class DashboardController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result report() {
-        return ok(report.render("Library Manager - Report Generation Section"));
+        return ok(itemReport.render("Library Manager - Report Generation Section"));
     }
 
 }
