@@ -3,6 +3,9 @@ package controllers;
 import play.mvc.*;
 
 import views.html.*;
+import models.*;
+
+import java.util.ArrayList;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -17,7 +20,8 @@ public class DashboardController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result dashboard() {
-        return ok(dashboard.render("Library Manager - Dashboard"));
+        ArrayList<LibraryItem> items = LibraryItem.getallItems();
+        return ok(itemDashboard.render("Library Manager - Dashboard", items));
     }
 
     /**

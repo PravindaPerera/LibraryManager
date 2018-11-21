@@ -9,8 +9,16 @@ GET     /delete                           controllers.DashboardController.delete
 GET     /borrow                           controllers.DashboardController.borrow
 GET     /return                           controllers.DashboardController.returnItem
 GET     /report                           controllers.DashboardController.report
+
+# An example controller showing the library items functionality of the application
+GET /addItem                       controllers.LibraryItemController.addItem
+GET /deleteItem                       controllers.LibraryItemController.deleteItem
+GET /borrowItem                       controllers.LibraryItemController.borrowItem
+GET /returnItem                       controllers.LibraryItemController.returnItem
+
 # An example controller showing how to use dependency injection
 GET     /count                      controllers.CountController.count
+
 # An example controller showing how to write asynchronous code
 GET     /message                    controllers.AsyncController.message
 
