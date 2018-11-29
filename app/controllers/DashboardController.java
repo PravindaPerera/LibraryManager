@@ -5,13 +5,21 @@ import play.mvc.*;
 import views.html.*;
 import models.*;
 
-import java.util.ArrayList;
+import play.data.Form;
+import play.data.FormFactory;
+
+import javax.inject.Inject;
+
+import java.util.Set;
 
 /**
  * This controller contains an action to handle HTTP requests
  * to the application's home page.
  */
 public class DashboardController extends Controller {
+
+    @Inject
+    FormFactory formFactory;
 
     /**
      * An action that renders an HTML page with a welcome message.
@@ -20,8 +28,13 @@ public class DashboardController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result dashboard() {
-        ArrayList<LibraryItem> items = LibraryItem.getallItems();
-        return ok(itemDashboard.render("Library Manager - Dashboard", items));
+        Set<Book> books = LibraryItem.getallBooks();
+        Set<Dvd> dvds = LibraryItem.getallDvds();
+        int bookCount = LibraryItem.getBookCount();
+        int dvdCount = LibraryItem.getDVDCount();
+        int maxBookCount = LibraryItem.getMaxBookCount();
+        int maxDvdCount = LibraryItem.getMaxDVDCount();
+        return ok(itemDashboard.render("Library Manager - Dashboard", books, dvds, bookCount, dvdCount, maxBookCount, maxDvdCount));
     }
 
     /**
@@ -31,7 +44,15 @@ public class DashboardController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result add() {
-        return ok(itemAdd.render("Library Manager - Add Item Section"));
+        // We need to send the add item form to the view
+        Form<DisplayItem> addBookForm = formFactory.form(DisplayItem.class);
+        Form<DisplayItem> addDvdForm = formFactory.form(DisplayItem.class);
+        int bookCount = LibraryItem.getBookCount();
+        int dvdCount = LibraryItem.getDVDCount();
+        int maxBookCount = LibraryItem.getMaxBookCount();
+        int maxDvdCount = LibraryItem.getMaxDVDCount();
+
+        return ok(itemAdd.render("Library Manager - Add Item Section", addBookForm, addDvdForm, bookCount, dvdCount, maxBookCount, maxDvdCount));
     }
 
     /**
@@ -41,7 +62,8 @@ public class DashboardController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result delete() {
-        return ok(itemDelete.render("Library Manager - Delete Item Section"));
+        Form<DisplayItem> deleteItemForm = formFactory.form(DisplayItem.class);
+        return ok(itemDelete.render("Library Manager - Delete Item Section", deleteItemForm));
     }
 
     /**
@@ -51,7 +73,8 @@ public class DashboardController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result borrow() {
-        return ok(itemBorrow.render("Library Manager - Borrow Item Section"));
+        Form<DisplayItem> borrowItemForm = formFactory.form(DisplayItem.class);
+        return ok(itemBorrow.render("Library Manager - Borrow Item Section", borrowItemForm));
     }
 
     /**
@@ -61,7 +84,8 @@ public class DashboardController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result returnItem() {
-        return ok(itemReturn.render("Library Manager - Return Item Section"));
+        Form<DisplayItem> returnItemForm = formFactory.form(DisplayItem.class);
+        return ok(itemReturn.render("Library Manager - Return Item Section", returnItemForm));
     }
 
     /**
@@ -71,7 +95,8 @@ public class DashboardController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result report() {
-        return ok(itemReport.render("Library Manager - Report Generation Section"));
+        Set<LibraryItem> overdueItems = LibraryItem.getOverdueItems();
+        return ok(itemReport.render("Library Manager - Report Generation Section", overdueItems));
     }
 
 }

@@ -1,4 +1,5 @@
-@(mainMessage: String)
+@(mainMessage: String)(deleteItemForm : Form[DisplayItem])
+@import helper._
 
 <!DOCTYPE html>
 <html lang="en">
@@ -101,26 +102,32 @@
                         </div>
                         <div class="x_content">
                             <br />
-                            <form id="item-del-form" data-parsley-validate class="form-horizontal form-label-left" method="get" action="/deleteItem">
+                            @helper.form(action = routes.LibraryItemController.deleteItem()){
 
-                                <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="item-isbn">ISBN Number <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input type="text" id="item-isbn" name="item-isbn" required="required" class="form-control col-md-7 col-xs-12">
-                                    </div>
-                                </div>
+                            @helper.inputText(deleteItemForm("isbn"))
 
-                                <div class="ln_solid"></div>
-                                <div class="form-group">
-                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                        <!--<button class="btn btn-primary" type="button">Cancel</button>-->
-                                        <!--<button class="btn btn-primary" type="reset">Reset</button>-->
-                                        <button type="submit" class="btn btn-danger">Delete Item</button>
-                                    </div>
-                                </div>
+                            <button type="submit" class="btn btn-danger">Delete Item</button>
+                            }
+                            <!--<form id="item-del-form" data-parsley-validate class="form-horizontal form-label-left" method="get" action="/deleteItem">-->
 
-                            </form>
+                                <!--<div class="form-group">-->
+                                    <!--<label class="control-label col-md-3 col-sm-3 col-xs-12" for="item-isbn">ISBN Number <span class="required">*</span>-->
+                                    <!--</label>-->
+                                    <!--<div class="col-md-6 col-sm-6 col-xs-12">-->
+                                        <!--<input type="text" id="item-isbn" name="item-isbn" required="required" class="form-control col-md-7 col-xs-12">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                                <!--<div class="ln_solid"></div>-->
+                                <!--<div class="form-group">-->
+                                    <!--<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">-->
+                                        <!--&lt;!&ndash;<button class="btn btn-primary" type="button">Cancel</button>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<button class="btn btn-primary" type="reset">Reset</button>&ndash;&gt;-->
+                                        <!--<button type="submit" class="btn btn-danger">Delete Item</button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                            <!--</form>-->
                         </div>
                     </div>
                 </div>

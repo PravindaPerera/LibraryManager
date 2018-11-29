@@ -1,4 +1,5 @@
-@(mainMessage: String)
+@(mainMessage: String)(borrowItemForm : Form[DisplayItem])
+@import helper._
 
 <!DOCTYPE html>
 <html lang="en">
@@ -104,46 +105,63 @@
                         </div>
                         <div class="x_content">
                             <br />
-                            <form id="borrow-form" data-parsley-validate class="form-horizontal form-label-left">
+                            @helper.form(action = routes.LibraryItemController.borrowItem()){
 
-                                <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="item-isbn">ISBN Number <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input type="text" id="item-isbn" name="item-isbn" required="required" class="form-control col-md-7 col-xs-12">
-                                    </div>
-                                </div>
+                            @helper.inputText(borrowItemForm("isbn"))
 
-                                <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="borrowerName">Borrower Name <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input type="text" id="borrowerName" name="borrowerName" required="required" class="form-control col-md-7 col-xs-12">
-                                    </div>
-                                </div>
+                            @helper.inputText(borrowItemForm("day"))
+                            @helper.inputText(borrowItemForm("month"))
+                            @helper.inputText(borrowItemForm("year"))
 
-                                <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Borrowed Date <span class="required">*</span>
-                                    </label>
-                                    <div class='input-group date col-md-6 col-sm-6 col-xs-12' id='borrowed-date'>
-                                        <input type='text' class="form-control" />
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                    </div>
-                                </div>
+                            <p><b>Reader / Borrower Information</b></p>
+
+                            @helper.inputText(borrowItemForm("id"))
+                            @helper.inputText(borrowItemForm("name"))
+                            @helper.inputText(borrowItemForm("mobileNumber"))
+                            @helper.inputText(borrowItemForm("email"))
+
+                            <button type="submit" class="btn btn-success">Borrow Item</button>
+                            }
+                            <!--<form id="borrow-form" data-parsley-validate class="form-horizontal form-label-left">-->
+
+                                <!--<div class="form-group">-->
+                                    <!--<label class="control-label col-md-3 col-sm-3 col-xs-12" for="item-isbn">ISBN Number <span class="required">*</span>-->
+                                    <!--</label>-->
+                                    <!--<div class="col-md-6 col-sm-6 col-xs-12">-->
+                                        <!--<input type="text" id="item-isbn" name="item-isbn" required="required" class="form-control col-md-7 col-xs-12">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                                <!--<div class="form-group">-->
+                                    <!--<label class="control-label col-md-3 col-sm-3 col-xs-12" for="borrowerName">Borrower Name <span class="required">*</span>-->
+                                    <!--</label>-->
+                                    <!--<div class="col-md-6 col-sm-6 col-xs-12">-->
+                                        <!--<input type="text" id="borrowerName" name="borrowerName" required="required" class="form-control col-md-7 col-xs-12">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                                <!--<div class="form-group">-->
+                                    <!--<label class="control-label col-md-3 col-sm-3 col-xs-12">Borrowed Date <span class="required">*</span>-->
+                                    <!--</label>-->
+                                    <!--<div class='input-group date col-md-6 col-sm-6 col-xs-12' id='borrowed-date'>-->
+                                        <!--<input type='text' class="form-control" />-->
+                                        <!--<span class="input-group-addon">-->
+                                            <!--<span class="glyphicon glyphicon-calendar"></span>-->
+                                        <!--</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
 
 
-                                <div class="ln_solid"></div>
-                                <div class="form-group">
-                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                        <!--<button class="btn btn-primary" type="button">Cancel</button>-->
-                                        <!--<button class="btn btn-primary" type="reset">Reset</button>-->
-                                        <button type="submit" class="btn btn-success">Borrow Item</button>
-                                    </div>
-                                </div>
+                                <!--<div class="ln_solid"></div>-->
+                                <!--<div class="form-group">-->
+                                    <!--<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">-->
+                                        <!--&lt;!&ndash;<button class="btn btn-primary" type="button">Cancel</button>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<button class="btn btn-primary" type="reset">Reset</button>&ndash;&gt;-->
+                                        <!--<button type="submit" class="btn btn-success">Borrow Item</button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
 
-                            </form>
+                            <!--</form>-->
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-@(mainMessage: String)
+@(mainMessage: String)(overdueItems: Set[models.LibraryItem])
 
 <!DOCTYPE html>
 <html lang="en">
@@ -115,111 +115,15 @@
 
 
                                 <tbody>
+                                @for(item <- overdueItems){
                                 <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>10</td>
-                                    <td>0.8</td>
+                                    <td>@item.getIsbn()</td>
+                                    <td>@item.getType()</td>
+                                    <td>@item.getTitle()</td>
+                                    <td>@item.getOverdueDays()</td>
+                                    <td>@item.getFee()</td>
                                 </tr>
-                                <tr>
-                                    <td>Garrett Winters</td>
-                                    <td>Accountant</td>
-                                    <td>Tokyo</td>
-                                    <td>20</td>
-                                    <td>1.6</td>
-                                </tr>
-                                <tr>
-                                    <td>Ashton Cox</td>
-                                    <td>Junior Technical Author</td>
-                                    <td>San Francisco</td>
-                                    <td>15</td>
-                                    <td>1.2</td>
-                                </tr>
-                                <tr>
-                                    <td>Cedric Kelly</td>
-                                    <td>Senior Javascript Developer</td>
-                                    <td>Edinburgh</td>
-                                    <td>10</td>
-                                    <td>0.8</td>
-                                </tr>
-                                <tr>
-                                    <td>Airi Satou</td>
-                                    <td>Accountant</td>
-                                    <td>Tokyo</td>
-                                    <td>15</td>
-                                    <td>1.2</td>
-                                </tr>
-                                <tr>
-                                    <td>Brielle Williamson</td>
-                                    <td>Integration Specialist</td>
-                                    <td>New York</td>
-                                    <td>20</td>
-                                    <td>1.6</td>
-                                </tr>
-                                <tr>
-                                    <td>Herrod Chandler</td>
-                                    <td>Sales Assistant</td>
-                                    <td>San Francisco</td>
-                                    <td>10</td>
-                                    <td>0.8</td>
-                                </tr>
-                                <tr>
-                                    <td>Rhona Davidson</td>
-                                    <td>Integration Specialist</td>
-                                    <td>Tokyo</td>
-                                    <td>20</td>
-                                    <td>1.6</td>
-                                </tr>
-                                <tr>
-                                    <td>Colleen Hurst</td>
-                                    <td>Javascript Developer</td>
-                                    <td>San Francisco</td>
-                                    <td>15</td>
-                                    <td>1.2</td>
-                                </tr>
-                                <tr>
-                                    <td>Sonya Frost</td>
-                                    <td>Software Engineer</td>
-                                    <td>Edinburgh</td>
-                                    <td>10</td>
-                                    <td>0.8</td>
-                                </tr>
-                                <tr>
-                                    <td>Jena Gaines</td>
-                                    <td>Office Manager</td>
-                                    <td>London</td>
-                                    <td>20</td>
-                                    <td>1.6</td>
-                                </tr>
-                                <tr>
-                                    <td>Quinn Flynn</td>
-                                    <td>Support Lead</td>
-                                    <td>Edinburgh</td>
-                                    <td>20</td>
-                                    <td>1.6</td>
-                                </tr>
-                                <tr>
-                                    <td>Charde Marshall</td>
-                                    <td>Regional Director</td>
-                                    <td>San Francisco</td>
-                                    <td>10</td>
-                                    <td>0.8</td>
-                                </tr>
-                                <tr>
-                                    <td>Haley Kennedy</td>
-                                    <td>Senior Marketing Designer</td>
-                                    <td>London</td>
-                                    <td>15</td>
-                                    <td>1.2</td>
-                                </tr>
-                                <tr>
-                                    <td>Tatyana Fitzpatrick</td>
-                                    <td>Regional Director</td>
-                                    <td>London</td>
-                                    <td>20</td>
-                                    <td>1.6</td>
-                                </tr>
+                                }
                                 </tbody>
                             </table>
                         </div>
@@ -295,8 +199,8 @@
     $("#overdueItems").DataTable({
       "paging": true,
       "lengthChange": false,
-      "searching": false,
-      "order": [[ 3, 'desc' ]],
+      "searching": true,
+      "order": [[ 4, 'desc' ]],
       "ordering": true,
       "info": true,
       "autoWidth": false
