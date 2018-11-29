@@ -92,7 +92,7 @@ public abstract class LibraryItem {
                     true, new DateTime(libItem.day, libItem.month, libItem.year),
                     0, 0, borrowedBookItem.getAuthorNames(), borrowedBookItem.getPublisher(), borrowedBookItem.getNumOfPages(), new Reader(libItem.id, libItem.name, libItem.mobileNumber, libItem.email));
 
-            addBook(book);
+            LibraryItem.addBook(book);
             return true;
         }
 
@@ -105,7 +105,7 @@ public abstract class LibraryItem {
                     true, new DateTime(libItem.day, libItem.month, libItem.year),
                     0, 0, borrowedDvdItem.getLanguages(), borrowedDvdItem.getSubtitiles(), borrowedDvdItem.getProducer(), borrowedDvdItem.getActors());
 
-            addDvd(dvd);
+            LibraryItem.addDvd(dvd);
             return true;
         }
         return false;

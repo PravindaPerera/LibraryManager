@@ -28,8 +28,9 @@ public class DashboardController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result dashboard() {
-        Set<Book> books = LibraryItem.getallBooks();
-        Set<Dvd> dvds = LibraryItem.getallDvds();
+        WestminsterLibraryManager westminsterLibraryManager = new WestminsterLibraryManager();
+        Set<Book> books = westminsterLibraryManager.getallBooks();
+        Set<Dvd> dvds = westminsterLibraryManager.getallDvds();
         int bookCount = LibraryItem.getBookCount();
         int dvdCount = LibraryItem.getDVDCount();
         int maxBookCount = LibraryItem.getMaxBookCount();
@@ -95,7 +96,8 @@ public class DashboardController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result report() {
-        Set<LibraryItem> overdueItems = LibraryItem.getOverdueItems();
+        WestminsterLibraryManager westminsterLibraryManager = new WestminsterLibraryManager();
+        Set<LibraryItem> overdueItems = westminsterLibraryManager.getOverdueItems();
         return ok(itemReport.render("Library Manager - Report Generation Section", overdueItems));
     }
 
