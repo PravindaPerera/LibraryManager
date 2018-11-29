@@ -6,6 +6,8 @@ public interface LibraryManager {
     public abstract void addBook(Book item);
     public abstract void addDvd(Dvd item);
     public abstract void deleteItem(String isbn);
+    public abstract Book findBookById(String isbn);
+    public abstract Dvd findDvdById(String isbn);
     public abstract Set<Book> getallBooks();
     public abstract Set<Dvd> getallDvds();
     public abstract boolean borrowItem(DisplayItem libItem);

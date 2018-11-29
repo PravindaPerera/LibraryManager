@@ -20,6 +20,16 @@ public class WestminsterLibraryManager implements LibraryManager {
     }
 
     @Override
+    public Book findBookById(String isbn) {
+        return LibraryItem.findBookById(isbn);
+    }
+
+    @Override
+    public Dvd findDvdById(String isbn) {
+        return LibraryItem.findDvdById(isbn);
+    }
+
+    @Override
     public Set<Book> getallBooks() {
         return LibraryItem.getallBooks();
     }

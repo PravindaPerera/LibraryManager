@@ -25,10 +25,15 @@ public class LibraryItemController extends Controller {
         DisplayItem newlyAddedItem = addBookForm.get();
         WestminsterLibraryManager westminsterLibraryManager = new WestminsterLibraryManager();
 
-        Book book = new Book(newlyAddedItem.isbn, newlyAddedItem.title, newlyAddedItem.sector, "book", new DateTime(newlyAddedItem.day,newlyAddedItem.month,newlyAddedItem.year),
-                false, new DateTime(0,0,0), 0, 0, new String[]{"K. L. Adams", "P. L. Lehman"},
-                "Redwood", 1030, new Reader());
-        westminsterLibraryManager.addBook(book);
+        Book bookFound = westminsterLibraryManager.findBookById(newlyAddedItem.isbn);
+        Dvd dvdFound = westminsterLibraryManager.findDvdById(newlyAddedItem.isbn);
+
+        if (bookFound == null && dvdFound == null) {
+            Book book = new Book(newlyAddedItem.isbn, newlyAddedItem.title, newlyAddedItem.sector, "book", new DateTime(newlyAddedItem.day,newlyAddedItem.month,newlyAddedItem.year),
+                    false, new DateTime(0,0,0), 0, 0, new String[]{"K. L. Adams", "P. L. Lehman"},
+                    "Redwood", 1030, new Reader());
+            westminsterLibraryManager.addBook(book);
+        }
 
         return redirect(routes.DashboardController.dashboard());
     }
@@ -38,10 +43,16 @@ public class LibraryItemController extends Controller {
         DisplayItem newlyAddedItem = addDvdForm.get();
         WestminsterLibraryManager westminsterLibraryManager = new WestminsterLibraryManager();
 
-        Dvd dvd = new Dvd(newlyAddedItem.isbn, newlyAddedItem.title, newlyAddedItem.sector, "dvd", new DateTime(newlyAddedItem.day,newlyAddedItem.month,newlyAddedItem.year),
-                false, new DateTime(0,0,0), 0, 0, new String[]{"English", "French"}, new String[]{"English", "French"},
-                "K. M. Smith", new String[]{"J. Brayan", "L. Tim"});
-        westminsterLibraryManager.addDvd(dvd);
+        Book bookFound = westminsterLibraryManager.findBookById(newlyAddedItem.isbn);
+        Dvd dvdFound = westminsterLibraryManager.findDvdById(newlyAddedItem.isbn);
+
+
+        if (bookFound == null && dvdFound == null) {
+            Dvd dvd = new Dvd(newlyAddedItem.isbn, newlyAddedItem.title, newlyAddedItem.sector, "dvd", new DateTime(newlyAddedItem.day,newlyAddedItem.month,newlyAddedItem.year),
+                    false, new DateTime(0,0,0), 0, 0, new String[]{"English", "French"}, new String[]{"English", "French"},
+                    "K. M. Smith", new String[]{"J. Brayan", "L. Tim"});
+            westminsterLibraryManager.addDvd(dvd);
+        }
 
         return redirect(routes.DashboardController.dashboard());
     }
