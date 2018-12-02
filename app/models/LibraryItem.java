@@ -2,8 +2,8 @@ package models;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
-import java.util.Calendar;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 
 public abstract class LibraryItem {
@@ -167,21 +167,15 @@ public abstract class LibraryItem {
 
     public static Set<LibraryItem> getOverdueItems() {
 
-        Date currentDate = new Date(Calendar.getInstance().get(Calendar.YEAR),
-                Calendar.getInstance().get(Calendar.MONTH) + 1,
-                Calendar.getInstance().get(Calendar.DATE));
-
         Set<LibraryItem> overdueItems = new HashSet<>();
 
         for (Book item : bookItems) {
             if (item.isBorrowed()) {
-                Date borrowedDate = new Date(item.getBorrowedDate().year, item.getBorrowedDate().month, item.getBorrowedDate().day);
-                long diffInMillies = Math.abs(currentDate.getTime() - borrowedDate.getTime());
-                long overDueDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+                int overDueDays = calculateOverdueDays(item.getBorrowedDate().year, item.getBorrowedDate().month, item.getBorrowedDate().day);
 
                 if (overDueDays > 7) {
-                    item.setOverdueDays((int) overDueDays - 7);
-                    item.setFee(Math.round(0.3 * ((int) overDueDays - 7) * 100.0) / 100.0);
+                    item.setOverdueDays(overDueDays - 7);
+                    item.setFee(Math.round(0.3 * (overDueDays - 7) * 100.0) / 100.0);
                     overdueItems.add(item);
                 }
             }
@@ -189,19 +183,75 @@ public abstract class LibraryItem {
 
         for (Dvd item : dvdItems) {
             if (item.isBorrowed()) {
-                Date borrowedDate = new Date(item.getBorrowedDate().year, item.getBorrowedDate().month, item.getBorrowedDate().day);
-                long diffInMillies = Math.abs(currentDate.getTime() - borrowedDate.getTime());
-                long overDueDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+                int overDueDays = calculateOverdueDays(item.getBorrowedDate().year, item.getBorrowedDate().month, item.getBorrowedDate().day);
 
                 if (overDueDays > 3) {
-                    item.setOverdueDays((int) overDueDays - 3);
-                    item.setFee(Math.round(0.3 * ((int) overDueDays - 3) * 100.0) / 100.0);
+                    item.setOverdueDays(overDueDays - 3);
+                    item.setFee(Math.round(0.3 * (overDueDays - 3) * 100.0) / 100.0);
                     overdueItems.add(item);
                 }
             }
         }
         return overdueItems;
     }
+
+    private static int calculateOverdueDays(int borrowedYear, int borrowedMonth, int borrowedDay) {
+
+        int overdueDays = 0;
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String[] currentDate = dateFormat.format(date).toString().split("-");
+        int currentYear = Integer.parseInt(currentDate[0]);
+        int currentMonth = Integer.parseInt(currentDate[1]);
+        int currentDay = Integer.parseInt(currentDate[2]);
+
+        if (borrowedYear == currentYear) {
+            overdueDays = calcDiffInDaysWithinSameYear(currentMonth, currentDay, borrowedMonth, borrowedDay);
+        } else {
+            if (borrowedMonth < currentMonth) {
+                overdueDays = 365 * (currentYear - borrowedYear) + calcDiffInDaysWithinSameYear(currentMonth, currentDay, borrowedMonth, borrowedDay);
+            } else if (borrowedMonth == currentMonth) {
+                if (borrowedDay <= currentDay) {
+                    overdueDays = 365 * (currentYear - borrowedYear) + calcDiffInDaysWithinSameYear(currentMonth, currentDay, borrowedMonth, borrowedDay);
+                } else {
+                    overdueDays = (365 * (currentYear - borrowedYear - 1)) + (365 - (borrowedDay - currentDay));
+                }
+            } else {
+                calcDiffInDaysWithinSameYear(currentMonth, currentDay, borrowedMonth, borrowedDay);
+            }
+        }
+
+        return overdueDays;
+
+    }
+
+    private static int calcDiffInDaysWithinSameYear(int currentMonth, int currentDay, int borrowedMonth, int borrowedDay) {
+        int overdueDays = 0;
+        int[] daysInMonths = new int[] {0,31,28,31,30,31,30,31,31,30,31,30,31};
+
+        if (currentMonth == borrowedMonth) {
+            overdueDays = currentDay - borrowedDay;
+        } else if (borrowedMonth < currentMonth) {
+            overdueDays += daysInMonths[borrowedMonth] - borrowedDay;
+            for (int i=borrowedMonth+1; i<currentMonth; i++) {
+                overdueDays += daysInMonths[i];
+            }
+            overdueDays += currentDay;
+        } else {
+            overdueDays += daysInMonths[borrowedMonth] - borrowedDay;
+            for (int i=borrowedMonth+1; i<=12; i++) {
+                overdueDays += daysInMonths[i];
+            }
+            for (int i=1; i<currentMonth; i++) {
+                overdueDays += daysInMonths[i];
+            }
+            overdueDays += currentDay;
+        }
+        return overdueDays;
+    }
+
+
 
     public static int getBookCount() {
         return bookItems.size();
