@@ -7,6 +7,8 @@ public class Book extends LibraryItem {
     private int numOfPages;
     private Reader reader;
 
+    public Book() {}
+
     public Book(String isbn, String title, String sector, String type, DateTime publicationDate,
                 boolean isBorrowed, DateTime borrowedDate,
                 int overdueDays, double fee, String[] authorNames, String publisher, int numOfPages, Reader reader) {

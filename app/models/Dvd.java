@@ -7,6 +7,8 @@ public class Dvd extends LibraryItem {
     private String producer;
     private String[] actors;
 
+    public Dvd() {}
+
     public Dvd(String isbn, String title, String sector, String type, DateTime publicationDate,
                boolean isBorrowed, DateTime borrowedDate,
                int overdueDays, double fee, String[] languages, String[] subtitiles, String producer, String[] actors) {

@@ -53,6 +53,27 @@ public class WestminsterLibraryManager implements LibraryManager {
     public Set<LibraryItem> getOverdueItems() {
         return LibraryItem.getOverdueItems();
     }
+
+
+    @Override
+    public Book getRecentlyDeletedBook() {
+        return LibraryItem.getRecentlyDeletedBook();
+    }
+
+    @Override
+    public Dvd getRecentlyDeletedDvd() {
+        return LibraryItem.getRecentlyDeletedDvd();
+    }
+
+    @Override
+    public void setRecentlyDeletedBook(Book recentlyDeletedBook) {
+        LibraryItem.setRecentlyDeletedBook(recentlyDeletedBook);
+    }
+//
+    @Override
+    public void setRecentlyDeletedDvd(Dvd recentlyDeletedDvd) {
+         LibraryItem.setRecentlyDeletedDvd(recentlyDeletedDvd);
+    }
 }
 
 

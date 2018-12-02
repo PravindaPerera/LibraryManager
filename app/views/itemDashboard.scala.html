@@ -1,4 +1,4 @@
-@(mainMessage: String)(books: Set[models.Book])(dvds: Set[models.Dvd])(bookCount: Integer)(dvdCount: Integer)(maxBookCount: Integer)(maxDvdCount: Integer)
+@(mainMessage: String)(books: Set[models.Book])(dvds: Set[models.Dvd])(bookCount: Integer)(dvdCount: Integer)(maxBookCount: Integer)(maxDvdCount: Integer)(recentlyDeletedBook: Book)(recentlyDeletedDvd: Dvd)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -102,6 +102,21 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
+                            <div class="row">
+                                @if(recentlyDeletedBook.getIsbn()){
+                                <div class="alert alert-primary" role="alert">
+                                    <h3>Item type deleted: @recentlyDeletedBook.getType()</h3>
+                                    <h4>Item title deleted: @recentlyDeletedBook.getTitle()</h4>
+                                </div>
+                                }
+
+                                @if(recentlyDeletedDvd.getIsbn()){
+                                <div class="alert alert-primary" role="alert">
+                                    <h3>Item type deleted: @recentlyDeletedDvd.getType()</h3>
+                                    <h4>Item title deleted: @recentlyDeletedDvd.getTitle()</h4>
+                                </div>
+                                }
+                            </div>
                             <div class="row">
                                 <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                     <div class="tile-stats">

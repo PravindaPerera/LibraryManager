@@ -18,6 +18,8 @@ public abstract class LibraryItem {
     private int overdueDays;
     private double fee;
 
+    public LibraryItem() {}
+
     public LibraryItem(String isbn, String title, String sector, String type,
                        DateTime publicationDate, boolean isBorrowed, DateTime borrowedDate,
                        int overdueDays, double fee) {
@@ -34,11 +36,15 @@ public abstract class LibraryItem {
 
     private static Set<Book> bookItems;
     private static Set<Dvd> dvdItems;
+    private static Book recentlyDeletedBook;
+    private static Dvd recentlyDeletedDvd;
 
     static {
 
         bookItems = new HashSet<>();
         dvdItems = new HashSet<>();
+        recentlyDeletedBook = new Book();
+        recentlyDeletedDvd = new Dvd();
 
         bookItems.add(new Book("100-20-199", "Gamperaliya", "sec1", "book", new DateTime(10,7,1992),
                 false, new DateTime(0,0,0), 0, 0, new String[]{"K. L. Adams", "P. L. Lehman"},
@@ -69,12 +75,14 @@ public abstract class LibraryItem {
     public static boolean deleteItem(String isbn) {
         Book book = LibraryItem.findBookById(isbn);
         if (book != null) {
+            recentlyDeletedBook = book;
             bookItems.remove(book);
             return true;
         }
 
         Dvd dvd = LibraryItem.findDvdById(isbn);
         if (dvd != null) {
+            recentlyDeletedDvd = dvd;
             dvdItems.remove(dvd);
             return true;
         }
@@ -210,6 +218,22 @@ public abstract class LibraryItem {
             }
         }
         return null;
+    }
+
+    public static Book getRecentlyDeletedBook() {
+        return recentlyDeletedBook;
+    }
+
+    public static Dvd getRecentlyDeletedDvd() {
+        return recentlyDeletedDvd;
+    }
+
+    public static void setRecentlyDeletedBook(Book book) {
+        recentlyDeletedBook = book;
+    }
+
+    public static void setRecentlyDeletedDvd(Dvd dvd) {
+        recentlyDeletedDvd = dvd;
     }
 
     public String getIsbn() {

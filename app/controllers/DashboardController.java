@@ -31,11 +31,16 @@ public class DashboardController extends Controller {
         WestminsterLibraryManager westminsterLibraryManager = new WestminsterLibraryManager();
         Set<Book> books = westminsterLibraryManager.getallBooks();
         Set<Dvd> dvds = westminsterLibraryManager.getallDvds();
+        Book recentlyDeletedBook = westminsterLibraryManager.getRecentlyDeletedBook();
+        Dvd recentlyDeletedDvd = westminsterLibraryManager.getRecentlyDeletedDvd();
         int bookCount = LibraryItem.getBookCount();
         int dvdCount = LibraryItem.getDVDCount();
         int maxBookCount = LibraryItem.getMaxBookCount();
         int maxDvdCount = LibraryItem.getMaxDVDCount();
-        return ok(itemDashboard.render("Library Manager - Dashboard", books, dvds, bookCount, dvdCount, maxBookCount, maxDvdCount));
+        westminsterLibraryManager.setRecentlyDeletedBook(new Book());
+        westminsterLibraryManager.setRecentlyDeletedDvd(new Dvd());
+
+        return ok(itemDashboard.render("Library Manager - Dashboard", books, dvds, bookCount, dvdCount, maxBookCount, maxDvdCount, recentlyDeletedBook, recentlyDeletedDvd));
     }
 
     /**

@@ -8,6 +8,10 @@ public interface LibraryManager {
     public abstract void deleteItem(String isbn);
     public abstract Book findBookById(String isbn);
     public abstract Dvd findDvdById(String isbn);
+    public abstract Book getRecentlyDeletedBook();
+    public abstract Dvd getRecentlyDeletedDvd();
+    public abstract void setRecentlyDeletedBook(Book item);
+    public abstract void setRecentlyDeletedDvd(Dvd item);
     public abstract Set<Book> getallBooks();
     public abstract Set<Dvd> getallDvds();
     public abstract boolean borrowItem(DisplayItem libItem);
