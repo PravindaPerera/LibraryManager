@@ -5,7 +5,7 @@ import java.util.Set;
 public interface LibraryManager {
     public abstract void addBook(Book item);
     public abstract void addDvd(Dvd item);
-    public abstract void deleteItem(String isbn);
+    public abstract void deleteItem(String isbn, boolean shouldStoreDeletedItemm);
     public abstract Book findBookById(String isbn);
     public abstract Dvd findDvdById(String isbn);
     public abstract Book getRecentlyDeletedBook();

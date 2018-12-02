@@ -62,7 +62,7 @@ public class LibraryItemController extends Controller {
         DisplayItem deletedItem = deleteItemForm.get();
         WestminsterLibraryManager westminsterLibraryManager = new WestminsterLibraryManager();
 
-        westminsterLibraryManager.deleteItem(deletedItem.isbn);
+        westminsterLibraryManager.deleteItem(deletedItem.isbn, true);
 
         return redirect(routes.DashboardController.dashboard());
     }

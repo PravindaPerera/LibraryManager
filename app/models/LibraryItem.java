@@ -38,6 +38,7 @@ public abstract class LibraryItem {
     private static Set<Dvd> dvdItems;
     private static Book recentlyDeletedBook;
     private static Dvd recentlyDeletedDvd;
+    private static boolean itemAlreadyborrowed;
 
     static {
 
@@ -45,6 +46,7 @@ public abstract class LibraryItem {
         dvdItems = new HashSet<>();
         recentlyDeletedBook = new Book();
         recentlyDeletedDvd = new Dvd();
+        itemAlreadyborrowed = false;
 
         bookItems.add(new Book("100-20-199", "Gamperaliya", "sec1", "book", new DateTime(10,7,1992),
                 false, new DateTime(0,0,0), 0, 0, new String[]{"K. L. Adams", "P. L. Lehman"},
@@ -72,17 +74,21 @@ public abstract class LibraryItem {
         dvdItems.add(item);
     }
 
-    public static boolean deleteItem(String isbn) {
+    public static boolean deleteItem(String isbn, boolean shouldStoreDeletedItemm) {
         Book book = LibraryItem.findBookById(isbn);
         if (book != null) {
-            recentlyDeletedBook = book;
+            if (shouldStoreDeletedItemm) {
+                recentlyDeletedBook = book;
+            }
             bookItems.remove(book);
             return true;
         }
 
         Dvd dvd = LibraryItem.findDvdById(isbn);
         if (dvd != null) {
-            recentlyDeletedDvd = dvd;
+            if (shouldStoreDeletedItemm) {
+                recentlyDeletedDvd = dvd;
+            }
             dvdItems.remove(dvd);
             return true;
         }
@@ -93,28 +99,40 @@ public abstract class LibraryItem {
     public static boolean borrowItem(DisplayItem libItem) {
         Book borrowedBookItem = LibraryItem.findBookById(libItem.isbn);
         if (borrowedBookItem != null) {
-            deleteItem(borrowedBookItem.getIsbn());
+            if (borrowedBookItem.isBorrowed()) {
+                itemAlreadyborrowed = true;
+                return false;
 
-            Book book = new Book(borrowedBookItem.getIsbn(), borrowedBookItem.getTitle(),
-                    borrowedBookItem.getSector(), borrowedBookItem.getType(), borrowedBookItem.getPublicationDate(),
-                    true, new DateTime(libItem.day, libItem.month, libItem.year),
-                    0, 0, borrowedBookItem.getAuthorNames(), borrowedBookItem.getPublisher(), borrowedBookItem.getNumOfPages(), new Reader(libItem.id, libItem.name, libItem.mobileNumber, libItem.email));
+            } else {
+                deleteItem(borrowedBookItem.getIsbn(), false);
 
-            LibraryItem.addBook(book);
-            return true;
+                Book book = new Book(borrowedBookItem.getIsbn(), borrowedBookItem.getTitle(),
+                        borrowedBookItem.getSector(), borrowedBookItem.getType(), borrowedBookItem.getPublicationDate(),
+                        true, new DateTime(libItem.day, libItem.month, libItem.year),
+                        0, 0, borrowedBookItem.getAuthorNames(), borrowedBookItem.getPublisher(), borrowedBookItem.getNumOfPages(), new Reader(libItem.id, libItem.name, libItem.mobileNumber, libItem.email));
+
+                LibraryItem.addBook(book);
+                return true;
+            }
         }
 
         Dvd borrowedDvdItem = LibraryItem.findDvdById(libItem.isbn);
         if (borrowedDvdItem != null) {
-            deleteItem(borrowedDvdItem.getIsbn());
+            if (borrowedDvdItem.isBorrowed()) {
+                itemAlreadyborrowed = true;
+                return false;
 
-            Dvd dvd = new Dvd(borrowedDvdItem.getIsbn(), borrowedDvdItem.getTitle(),
-                    borrowedDvdItem.getSector(), borrowedDvdItem.getType(), borrowedDvdItem.getPublicationDate(),
-                    true, new DateTime(libItem.day, libItem.month, libItem.year),
-                    0, 0, borrowedDvdItem.getLanguages(), borrowedDvdItem.getSubtitiles(), borrowedDvdItem.getProducer(), borrowedDvdItem.getActors());
+            } else {
+                deleteItem(borrowedDvdItem.getIsbn(), false);
 
-            LibraryItem.addDvd(dvd);
-            return true;
+                Dvd dvd = new Dvd(borrowedDvdItem.getIsbn(), borrowedDvdItem.getTitle(),
+                        borrowedDvdItem.getSector(), borrowedDvdItem.getType(), borrowedDvdItem.getPublicationDate(),
+                        true, new DateTime(libItem.day, libItem.month, libItem.year),
+                        0, 0, borrowedDvdItem.getLanguages(), borrowedDvdItem.getSubtitiles(), borrowedDvdItem.getProducer(), borrowedDvdItem.getActors());
+
+                LibraryItem.addDvd(dvd);
+                return true;
+            }
         }
         return false;
     }
@@ -122,7 +140,7 @@ public abstract class LibraryItem {
     public static boolean returnItem(String isbn) {
         Book returnedBook = LibraryItem.findBookById(isbn);
         if (returnedBook != null) {
-            deleteItem(isbn);
+            deleteItem(isbn, false);
 
             Book book = new Book(returnedBook.getIsbn(), returnedBook.getTitle(),
                     returnedBook.getSector(), returnedBook.getType(), returnedBook.getPublicationDate(),
@@ -135,7 +153,7 @@ public abstract class LibraryItem {
 
         Dvd returnedDvd = LibraryItem.findDvdById(isbn);
         if (returnedDvd != null) {
-            deleteItem(isbn);
+            deleteItem(isbn, false);
 
             Dvd dvd = new Dvd(returnedDvd.getIsbn(), returnedDvd.getTitle(),
                     returnedDvd.getSector(), returnedDvd.getType(), returnedDvd.getPublicationDate(), false, new DateTime(0, 0, 0),
@@ -234,6 +252,14 @@ public abstract class LibraryItem {
 
     public static void setRecentlyDeletedDvd(Dvd dvd) {
         recentlyDeletedDvd = dvd;
+    }
+
+    public static void setItemAlreadyborrowed(boolean itemAlreadyborrowed) {
+        LibraryItem.itemAlreadyborrowed = itemAlreadyborrowed;
+    }
+
+    public static boolean isItemAlreadyborrowed() {
+        return itemAlreadyborrowed;
     }
 
     public String getIsbn() {

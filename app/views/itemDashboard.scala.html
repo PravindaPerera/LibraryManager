@@ -1,4 +1,4 @@
-@(mainMessage: String)(books: Set[models.Book])(dvds: Set[models.Dvd])(bookCount: Integer)(dvdCount: Integer)(maxBookCount: Integer)(maxDvdCount: Integer)(recentlyDeletedBook: Book)(recentlyDeletedDvd: Dvd)
+@(mainMessage: String)(books: Set[models.Book])(dvds: Set[models.Dvd])(bookCount: Integer)(dvdCount: Integer)(maxBookCount: Integer)(maxDvdCount: Integer)(recentlyDeletedBook: Book)(recentlyDeletedDvd: Dvd)(itemAlreadyborrowed: Boolean)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -114,6 +114,12 @@
                                 <div class="alert alert-primary" role="alert">
                                     <h3>Item type deleted: @recentlyDeletedDvd.getType()</h3>
                                     <h4>Item title deleted: @recentlyDeletedDvd.getTitle()</h4>
+                                </div>
+                                }
+
+                                @if(itemAlreadyborrowed){
+                                <div class="alert alert-primary" role="alert">
+                                    <h3>Sorry, the item you tried to borrow is not available at this moment</h3>
                                 </div>
                                 }
                             </div>

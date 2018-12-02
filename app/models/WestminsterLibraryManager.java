@@ -15,8 +15,8 @@ public class WestminsterLibraryManager implements LibraryManager {
     }
 
     @Override
-    public void deleteItem(String isbn) {
-        LibraryItem.deleteItem(isbn);
+    public void deleteItem(String isbn, boolean shouldStoreDeletedItemm) {
+        LibraryItem.deleteItem(isbn, shouldStoreDeletedItemm);
     }
 
     @Override
